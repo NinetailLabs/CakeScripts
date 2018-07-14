@@ -70,7 +70,7 @@ Task ("Documentation")
 // Check if documentation should be generated
 private bool CheckIfDocumentationShouldBeGenerated()
 {
-    if(buildType != "master")
+    if(branch != "master")
     {
         Information("Documentation is only pushed for master branch");
         return false;
