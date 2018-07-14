@@ -8,7 +8,7 @@
 // String used to search for solution files
 var slnSearchString = "./*.sln";
 // String used to search for project files
-var projSearchString = "./**/*.csproj";
+var projSearchString = "./*/*.csproj";
 // String used to search for test projects
 var testSearchString = "./*Tests/*.Tests.csproj";
 // Solution files that was found
