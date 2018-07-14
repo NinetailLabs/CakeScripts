@@ -41,7 +41,7 @@ private bool CheckIfPackagesCanBePushed()
         return false;
     }
 
-    var apiKey = EnvironmentVariable("NugetKey");
+    apiKey = EnvironmentVariable("NugetKey");
     if(string.IsNullOrEmpty(apiKey))
     {
         Warning("NuGet API key is empty - Not pushing to NuGet");
@@ -59,9 +59,7 @@ private void PushPackagesToNuget()
         // Get the newest (by last write time) to publish
         var newestNupkg = GetFiles ($"nupkg/{project.Key}*.nupkg")
             .OrderBy (f => new System.IO.FileInfo (f.FullPath).LastWriteTimeUtc)
-            .LastOrDefault();
-
-        
+            .LastOrDefault();        
 
         NuGetPush (newestNupkg, new NuGetPushSettings 
         { 
