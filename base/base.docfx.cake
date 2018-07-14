@@ -26,7 +26,7 @@ var botToken = "";
 // Email address of the bot used to update git repo
 var botEmail = "";
 // Branch that documentation should be pushed to
-var branch = "gh-pages";
+var documentBranch = "gh-pages";
 // Git repository URL
 var gitRepo = "";
 
@@ -50,7 +50,7 @@ Task ("Documentation")
 		
 		Information("Cloning documentation branch");
 		GitClone(gitRepo, MakeAbsolute(Directory("docClone")), new GitCloneSettings{
-			BranchName = branch
+			BranchName = documentBranch
 		});
 
 		Information("Preparing updated site");
@@ -59,7 +59,7 @@ Task ("Documentation")
 
 		Information("Pushing updated documentation to repo");
 		GitCommit(newDocumentationPath, botName, botEmail, "Documentation for " + version);
-		GitPush(newDocumentationPath, botName, botToken, branch);
+		GitPush(newDocumentationPath, botName, botToken, documentBranch);
 		Information("Completed Documentation update");
 	});
 
