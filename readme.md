@@ -15,3 +15,20 @@ Invoke-WebRequest https://cakebuild.net/download/bootstrapper/windows -OutFile b
 .\build.ps1
 ```
 If PowerShell has a security issue, read the Cake guide [here](https://cakebuild.net/docs/tutorials/powershell-security)
+
+## QuickStart
+To quickly create and set up a new Git repository grab the QuickStart PowerShell script with the following
+```
+Invoke-WebRequest https://raw.githubusercontent.com/DeadlyEmbrace/CakeScripts/master/quickstart.ps1 -OutFile quickstart.ps1
+```
+
+Then invoke the script
+```
+.\quickstart.ps1 -repo <repo-name>
+```
+The QuickStart script does the following
+- Create a new Git repository
+- Pull down the `build.ps1` bootstrap file
+- Add the VisualStudio `.gitignore` file from GitHub
+- Add the CakeScript repository as a Git submodule 
+- Copy the `template.build.cake` to the repository root and rename it to `build.cake`
