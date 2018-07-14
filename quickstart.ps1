@@ -15,7 +15,7 @@ Invoke-WebRequest https://cakebuild.net/download/bootstrapper/windows -OutFile b
 
 # Add CakeScripts as a Submodule
 Write-Host "Adding CakeScripts as Git submodule...";
-git submodule add -b master https://github.com/DeadlyEmbrace/CakeScripts.git;
+git submodule add -b master https://github.com/NinetailLabs/CakeScripts.git;
 
 # Copy template.build.cake to root
 Write-Host "Copying build.cake to repo root...";

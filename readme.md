@@ -19,7 +19,7 @@ If PowerShell has a security issue, read the Cake guide [here](https://cakebuild
 ## QuickStart
 To quickly create and set up a new Git repository grab the QuickStart PowerShell script with the following
 ```
-Invoke-WebRequest https://raw.githubusercontent.com/DeadlyEmbrace/CakeScripts/master/quickstart.ps1 -OutFile quickstart.ps1
+Invoke-WebRequest https://raw.githubusercontent.com/NinetailLabs/CakeScripts/master/quickstart.ps1 -OutFile quickstart.ps1
 ```
 
 Then invoke the script
