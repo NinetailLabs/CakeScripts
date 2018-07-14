@@ -1,18 +1,18 @@
 #region ScriptImports
 
 // Scripts
-#load "Cake.Scripts/base/base.buildsystem.cake"
-#load "Cake.Scripts/base/base.variables.cake"
-#load "Cake.Scripts/base/base.setup.cake"
-#load "Cake.Scripts/base/base.nuget.restore.cake"
-#load "Cake.Scripts/base/base.paket.restore.cake"
-#load "Cake.Scripts/base/base.msbuild.cake"
-#load "Cake.Scripts/base/base.nunit.cake"
-#load "Cake.Scripts/base/base.coveralls.upload.cake"
-#load "Cake.Scripts/base/base.gitreleasenotes.cake"
-#load "Cake.Scripts/base/base.nuget.pack.cake"
-#load "Cake.Scripts/base/base.nuget.push.cake"
-#load "Cake.Scripts/base/base.docfx.cake"
+#load "CakeScripts/base/base.buildsystem.cake"
+#load "CakeScripts/base/base.variables.cake"
+#load "CakeScripts/base/base.setup.cake"
+#load "CakeScripts/base/base.nuget.restore.cake"
+#load "CakeScripts/base/base.paket.restore.cake"
+#load "CakeScripts/base/base.msbuild.cake"
+#load "CakeScripts/base/base.nunit.cake"
+#load "CakeScripts/base/base.coveralls.upload.cake"
+#load "CakeScripts/base/base.gitreleasenotes.cake"
+#load "CakeScripts/base/base.nuget.pack.cake"
+#load "CakeScripts/base/base.nuget.push.cake"
+#load "CakeScripts/base/base.docfx.cake"
 
 #endregion
 
@@ -21,6 +21,7 @@
 // Set up variables specific for the project
 Task ("VariableSetup")
 	.Does(() => {
+		projectName = "";
 		releaseFolderString = "./{0}/bin/{1}/netstandard2.0";
 		releaseBinaryType = "dll";
 		repoOwner = "";
