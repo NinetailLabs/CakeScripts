@@ -39,6 +39,23 @@ Task ("UnitTests")
         EndBlock(blockText);
     });
 
+Task ("FailBuildIfTestFailed")
+    .Does(() => {
+        var blockText = "Build Success Check";
+        StartBlock(blockText);
+
+        if(!testPassed)
+        {
+            throw new CakeException("Unit test have failed - Failing the build");
+        }
+
+        EndBlock(blockText);
+    });
+
+#endregion
+
+#region Private Methods
+
 // Delete the coverage results if it already exists
 private void RemoveCoverageResults()
 {
