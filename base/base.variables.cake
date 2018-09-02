@@ -16,6 +16,9 @@ var buildCounter = Argument<int>("buildCounter", 0);
 // The build configuration to use for building the solutions
 var buildConfiguration = Argument("buildConfiguration", "Release");
 
+// Git SHA for the commit
+var gitHash = Argument<string>("gitHash", "none");
+
 #endregion
 
 #region Variables
@@ -44,6 +47,7 @@ Task ("OutputVariables")
         Information($"Branch: {branch}");
         Information($"Build Counter: {buildCounter}");
         Information($"Build Configuration: {buildConfiguration}");
+        Information($"Git Hash: {gitHash}");
 
         EndBlock(blockText);
     });

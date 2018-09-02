@@ -37,6 +37,11 @@ Task ("NugetPack")
             ReplaceRegexInFiles(nuspecFile, "0.0.0", version);
             ReplaceRegexInFiles(nuspecFile, "ReleaseNotesHere", releaseNotesText);
             
+            if(gitHash != "none")
+            {
+                ReplaceRegexInFiles(nuspecFile, "GitHashHere", gitHash);
+            }
+            
             NuGetPack (nuspecFile, GetNuGetPackSettings());	
         }
 	});
