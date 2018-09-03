@@ -19,6 +19,9 @@ var buildConfiguration = Argument("buildConfiguration", "Release");
 // Git SHA for the commit
 var gitHash = Argument<string>("gitHash", "none");
 
+// The commit message
+var commitMessage = Argument<string>("commitMessage", "");
+
 #endregion
 
 #region Variables
@@ -48,6 +51,7 @@ Task ("OutputVariables")
         Information($"Build Counter: {buildCounter}");
         Information($"Build Configuration: {buildConfiguration}");
         Information($"Git Hash: {gitHash}");
+        Information($"Commit Message: {commitMessage}");
 
         EndBlock(blockText);
     });
