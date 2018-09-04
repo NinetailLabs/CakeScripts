@@ -54,7 +54,7 @@ if($initProject)
     Copy-Item -Path ".\CakeScripts\visualstudio\SemVer.MSBuild.props" -Destination ".\$repo\SemVer.MSBuild.props";
 
     # Create the test project and add it to the solution
-    dotnet new classlib -o "$repo.Tests"
+    dotnet new classlib -f netcoreapp2.1 -o "$repo.Tests"
     dotnet sln "$repo.sln" add ".\$repo.Tests\$repo.Tests.csproj"
 
     # Add test Nuget packages
