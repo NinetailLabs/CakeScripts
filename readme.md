@@ -32,3 +32,23 @@ The QuickStart script does the following
 - Add the VisualStudio `.gitignore` file from GitHub
 - Add the CakeScript repository as a Git submodule 
 - Copy the `template.build.cake` to the repository root and rename it to `build.cake`
+
+## NetStandard2.0 Project QuickStart
+The Quickstart also support the creation of a pre-configured NetStandard2.0 project.  
+Invoke the quickstart script as follows
+```
+.\quickstart.ps1 -repo <repo-name> -initProject $true
+```
+
+Beside the basic Quickstart configuration, a Visual Studio solutions will be created with the following:
+- Solution file named the same as the `repo` value passed
+- NetStandard2.0 class library with:
+  - [SemVer.Git.MSBuild](https://www.nuget.org/packages/SemVer.Git.MSBuild/) for automated SemVer versioning
+  - [Microsoft.SourceLink.GitHub](https://www.nuget.org/packages?q=Microsoft.SourceLink.GitHub) for GitHub based SourceLink
+  - Nuspec template
+  - `SemVer.MSBuild.props` pre-configured to create version numbers starting with 1.0.0
+- NetCore2.1 XUnit test project with:
+  - [FluentAssertions](https://www.nuget.org/packages/FluentAssertions/)
+  - [Moq](https://www.nuget.org/packages/Moq/)
+- Git tag `1.0.0.0` that is used by `SemVer.Git.MSBuild` for versioning start point
+- `NineTailLabs.DotSettings` that contains the ReSharper settings used by NineTail Labs for code layout (Currently this has to be hooked into ReSharper manually)
