@@ -1,5 +1,7 @@
-Param([string]$repo);
-Param([bool]$initProject);
+Param(
+    [string]$repo, 
+    [bool]$initProject
+);
 
 if(!$repo)
 {
@@ -31,7 +33,6 @@ Copy-Item -Path ".\CakeScripts\templates\template.build.cake" -Destination "buil
 if($initProject)
 {
     Write-Host "Initializing DotNetCore library";
-    Param([string]$repo);
 
     # Create solution file
     dotnet new sln
