@@ -1,5 +1,8 @@
 Param(
+    [string]$repoOwner,
     [string]$repo, 
+    [string]$repoDescription,
+    [string]$documentBotName,
     [bool]$initProject
 );
 
@@ -12,7 +15,7 @@ if(!$repo)
 # Initialize a new repository
 Write-Host "Initializing Git repo...";
 git init $repo;
-cd $repo;
+Set-Location $repo;
 
 # Add VisualStudio .gitignore from GitHub
 Write-Host "Grabbing VisualStudio .gitignore...";
@@ -67,7 +70,128 @@ if($initProject)
     # Do package restore
     dotnet restore
 
+    # Create Git tag so that SemVer.Git.MSBuild has a valid starting point
     git tag 1.0.0.0
+
+    # Copy appveyor.yml template to the project root
+    Copy-Item -Path ".\CakeScripts\templates\appveyor.yml" -Destination "appveyor.yml";
+
+    # Do not continue if the user did not provide a token file
+    if (!(Test-Path "Tokens.json")) 
+    {
+        Write-Host "Could not find Tokens.json - Automated repository creation will not execute";
+        return;
+    }
+
+    # Read the tokens from the Tokens.json file
+    $tokens = Get-Content -Raw -Path Tokens.json | ConvertFrom-Json
+        
+    if($tokens.githubToken)
+    {
+        Write-Host "Creating GitHub repository...";
+        . .\CakeScripts\scripts\GitHubRepo.ps1
+        New-GitHubRepository -Name $repoName -Description $repoDescription -UserToken $tokens.githubToken
+
+        git remote add origin "git@github.com:$repoOwner/$repo.git"
+        
+        if($documentBotName)
+        {
+            Write-Host "Setting up document publishing bot link";
+            .\CakeScripts\scripts\GitHubCollaborator.ps -repoOwner $repoOwner -repo $repo -collaboratorName $documentBotName -githubToken $tokens.githubToken
+        }
+    }
+    else
+    {
+        Write-Host "No Github token could be found - No service setup will be done" -ForegroundColor Yellow;
+        return;
+    }
+
+    if($tokens.appVeyortoken)
+    {
+        Write-host "Creating AppVeyor project...";
+        .\CakeScripts\scripts\CreateAppVeyorRepo.ps1 -repoOwner $repoOwner -repo $repoName -appveyortoken $tokens.appVeyortoken
+    }
+
+    if($tokens.coverallsToken)
+    {
+        Write-Host "Creating Coveralls repo...";
+        .\CakeScripts\scripts\CreateCoverallsRepo.ps1 -repoOwner $repoOwner -repo $repoName -coverallstoken $tokens.coverallsToken
+    }
+
+    Write-Host "Repository setup completed";
+    Write-Host "";
+    Write-Host "User interaction is required to complete setup of AppVeyor.yml" -ForegroundColor Green;
+    Write-Host "Please open the appveyor.yml file then press any key to continue" -ForegroundColor Green;
+    $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
+
+    # Guide user to get Nuget token, encrypt it and copy it into the appveyor.yml file
+    Write-Host "---";
+    Write-Host "To publish your project to Nuget an access token is required";
+    Write-Host "If you already have a valid, encrypted token you can add it to appveyor.yml and skip this step.";
+    Write-Host "Do you need a token (y/n)" -ForegroundColor Green;
+    $key = Read-Host;
+    if($key -eq "y")
+    {
+        Write-Host "---";
+        Write-Host "The Nuget access token page will be opened as well as the AppVeyor page to encrypt data.";
+        Write-Host "Copy your access token from Nuget, then encrypt it on the AppVeyor page and paste it into appveyor.yml in the place of EncryptedNugetKeyGoesHere";
+        Write-Host "Press any key to open the pages" -ForegroundColor Green;
+        $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
+        Start-Process "https://ci.appveyor.com/tools/encrypt";
+        Start-Process "https://www.nuget.org/account/apikeys";
+
+        Write-Host "Press any key to continue" -ForegroundColor Green;
+        $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
+    }
+
+    # Guide user to get Coveralls token, encrypt it and copy it into the appveyor.yml file
+    Write-Host "---";
+    Write-Host "To be able to push coverage results to Coveralls an access token is required, this token was created when the Coveralls project was set up";
+    Write-Host "The Coveralls project page will be opened. Please copy the token, encrypt it on the AppVeyor page and paste it into appveyor.yml in the place of EncryptedCoverallsRepoTokenGoesHere";
+    Write-Host "Press any key to open the Coverall project page" -ForegroundColor Green;
+    $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
+    Start-Process "https://coveralls.io/github/$repoOwner/$repo";
+    Write-Host "Press any key to continue" -ForegroundColor Green;
+    $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
+
+    # Guide user to get token for publishing documentation to gh-pages
+    Write-host "---"
+    Write-Host "To be able to publish documentation a token is required for the user that can publish the documentation.";
+    Write-Host "If you already have an encrypted token for publishing you can add it to appvyor.yml and skip this step";
+    Write-Host "Do you need a token (y/n)" -ForegroundColor Green;
+    $key = Read-Host;
+    if($key -eq "y")
+    {
+        Write-Host "The GitHub personal access token page will be opened";
+        Write-Host "Create a new token with the public_repo claim, encrypt it on the AppVeyor page and paste it into appveyor.yml in the place of EncryptedBotTokenGoesHere";
+        Write-Host "Press any key to continue" -ForegroundColor Green;
+        $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
+    }
+
+    # Ask user to close and save appveyor.yml
+    Write-Host "---";
+    Write-Host "Please save and close appveyor.yml";
+    Write-Host "Press any key to continue" -ForegroundColor Green;
+    $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
+
+    # Ask user if new repository should be pushed to GitHub
+    Write-Host "---";
+    Write-Host "Do you want to auto-push the repository to GitHub (y/n)?" -ForegroundColor Green;
+    $key = Read-Host;
+    if($key -eq "y")
+    {
+        Write-Host "Before the repository can be pushed to GitHub the build.cake script has to be completed";
+        Write-Host "Please complete the script, then press any key to continue" -ForegroundColor Green;
+        $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
+        
+        git add .
+        git commit -a -m "Initial commit"
+        git push
+    }   
+    else
+    {
+        Write-Host "Repository will not be pushed to GitHub";
+    }
 }
 
 Write-Host "Repository quickstart done";
