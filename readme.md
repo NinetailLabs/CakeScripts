@@ -59,7 +59,7 @@ In order for auto-creation to work the script requires an access token for each 
 should be in the same directory as the `quickstart.ps1` script.  
 A template can be downloaded using:
 ```
-** TODO - Add instructions on how to download Tokens.json **
+Invoke-WebRequest https://raw.githubusercontent.com/NinetailLabs/CakeScripts/master/scripts/Tokens.json -OutFile Tokens.json
 ```
 
 To run the quickstart with auto-creation invoke it as follows
