@@ -52,3 +52,34 @@ Beside the basic Quickstart configuration, a Visual Studio solutions will be cre
   - [Moq](https://www.nuget.org/packages/Moq/)
 - Git tag `1.0.0.0` that is used by `SemVer.Git.MSBuild` for versioning start point
 - `NineTailLabs.DotSettings` that contains the ReSharper settings used by NineTail Labs for code layout (Currently this has to be hooked into ReSharper manually)
+
+### Repository auto-creation
+The quickstart script can be used to automatically set up a GitHub repository, AppVeyor build for the repository as well as a Coveralls code coverage project for the repository.  
+In order for auto-creation to work the script requires an access token for each of the services that should be auto-configured. Tokens are retrieved from the `Tokens.json` file which
+should be in the same directory as the `quickstart.ps1` script.  
+A template can be downloaded using:
+```
+Invoke-WebRequest https://raw.githubusercontent.com/NinetailLabs/CakeScripts/master/scripts/Tokens.json -OutFile Tokens.json
+```
+
+To run the quickstart with auto-creation invoke it as follows
+```
+.\quickstart.ps1 -repoOwner <repo-owner> -repo <repo-name> -repoDescription <repo-description> [-documentBotname <document-bot-name>] -initProject $true
+```
+
+Tokens can be generated as follows:
+#### Github
+Token can be generated [here](https://github.com/settings/tokens).  
+The token needs the *public_repo* claim (currently private repos are not supported by the script)
+
+#### AppVeyor
+Token can be found [here](https://coveralls.io/account)
+
+#### Coveralls
+Token can be generated [here](https://ci.appveyor.com/api-token)
+
+Tokens allow access to your account and should be carefully gaurded! It is recommended to store the Tokens.json file in a password safe, that way the tokens are kept secure
+and can be easily retrieved when needed.
+
+## Special Thanks
+Thanks to [Jeffery Hicks](https://jdhitsolutions.com/blog/about-me/) who provided the excellent [code](https://jdhitsolutions.com/blog/powershell/5373/creating-a-github-repository-from-powershell/) for creating GitHub repositories from powershell
