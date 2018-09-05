@@ -12,6 +12,8 @@ if(!$repo)
     return;
 }
 
+$executionDir = Get-Location
+
 # Initialize a new repository
 Write-Host "Initializing Git repo...";
 git init $repo;
@@ -70,34 +72,31 @@ if($initProject)
     # Do package restore
     dotnet restore
 
-    # Create Git tag so that SemVer.Git.MSBuild has a valid starting point
-    git tag 1.0.0.0
-
     # Copy appveyor.yml template to the project root
     Copy-Item -Path ".\CakeScripts\templates\appveyor.yml" -Destination "appveyor.yml";
 
     # Do not continue if the user did not provide a token file
-    if (!(Test-Path "Tokens.json")) 
+    if (!(Test-Path "$executionDir\Tokens.json")) 
     {
         Write-Host "Could not find Tokens.json - Automated repository creation will not execute";
         return;
     }
 
     # Read the tokens from the Tokens.json file
-    $tokens = Get-Content -Raw -Path Tokens.json | ConvertFrom-Json
+    $tokens = Get-Content -Raw -Path $executionDir\Tokens.json | ConvertFrom-Json
         
     if($tokens.githubToken)
     {
         Write-Host "Creating GitHub repository...";
         . .\CakeScripts\scripts\GitHubRepo.ps1
-        New-GitHubRepository -Name $repoName -Description $repoDescription -UserToken $tokens.githubToken
+        New-GitHubRepository -Name $repo -Description $repoDescription -UserToken $tokens.githubToken
 
         git remote add origin "git@github.com:$repoOwner/$repo.git"
         
         if($documentBotName)
         {
             Write-Host "Setting up document publishing bot link";
-            .\CakeScripts\scripts\GitHubCollaborator.ps -repoOwner $repoOwner -repo $repo -collaboratorName $documentBotName -githubToken $tokens.githubToken
+            .\CakeScripts\scripts\GitHubCollaborator.ps1 -repoOwner $repoOwner -repo $repo -collaboratorName $documentBotName -githubToken $tokens.githubToken
         }
     }
     else
@@ -109,13 +108,13 @@ if($initProject)
     if($tokens.appVeyortoken)
     {
         Write-host "Creating AppVeyor project...";
-        .\CakeScripts\scripts\CreateAppVeyorRepo.ps1 -repoOwner $repoOwner -repo $repoName -appveyortoken $tokens.appVeyortoken
+        .\CakeScripts\scripts\CreateAppVeyorRepo.ps1 -repoOwner $repoOwner -repo $repo -appveyortoken $tokens.appVeyortoken
     }
 
     if($tokens.coverallsToken)
     {
         Write-Host "Creating Coveralls repo...";
-        .\CakeScripts\scripts\CreateCoverallsRepo.ps1 -repoOwner $repoOwner -repo $repoName -coverallstoken $tokens.coverallsToken
+        .\CakeScripts\scripts\CreateCoverallsRepo.ps1 -repoOwner $repoOwner -repo $repo -coverallstoken $tokens.coverallsToken
     }
 
     Write-Host "Repository setup completed";
@@ -186,7 +185,9 @@ if($initProject)
         
         git add .
         git commit -a -m "Initial commit"
-        git push
+        # Create Git tag so that SemVer.Git.MSBuild has a valid starting point
+        git tag 1.0.0.0
+        git push --set-upstream origin master
     }   
     else
     {
