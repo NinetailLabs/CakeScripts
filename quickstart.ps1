@@ -25,7 +25,7 @@ Invoke-WebRequest https://raw.githubusercontent.com/github/gitignore/master/Visu
 
 # Add Cake bootstrap script
 Write-Host "Grabbing Cake bootstrap script...";
-Invoke-WebRequest https://cakebuild.net/download/bootstrapper/windows -OutFile build.ps1
+Invoke-WebRequest https://raw.githubusercontent.com/NinetailLabs/CakeScripts/master/templates/build.ps1 -OutFile build.ps1
 
 # Add CakeScripts as a Submodule
 Write-Host "Adding CakeScripts as Git submodule...";
