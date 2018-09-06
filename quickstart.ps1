@@ -1,9 +1,17 @@
 Param(
+    [Parameter(HelpMessage = "The name of the repository owner")]
     [string]$repoOwner,
+    [Parameter(HelpMessage = "The name of the repository to create")]
+    [ValidateNotNullorEmpty()]
     [string]$repo, 
+    [Parameter(HelpMessage = "A description of the repository")]
     [string]$repoDescription,
+    [Parameter(HelpMessage = "Name of the Bot account used to publish documentation")]
     [string]$documentBotName,
-    [bool]$initProject
+    [Parameter(HelpMessage = "Should a basic VS project be set up or not")]
+    [bool]$initProject,
+    [Parameter(HelpMessage = "Name of organization if account is not for a user")]
+    [bool]$forOrganization
 );
 
 if(!$repo)
@@ -89,7 +97,14 @@ if($initProject)
     {
         Write-Host "Creating GitHub repository...";
         . .\CakeScripts\scripts\GitHubRepo.ps1
-        New-GitHubRepository -Name $repo -Description $repoDescription -UserToken $tokens.githubToken
+        if($forOrganization)
+        {
+            New-GitHubRepository -Name $repo -Description $repoDescription -UserToken $tokens.githubToken -Organization $repoOwner
+        }
+        else
+        {
+            New-GitHubRepository -Name $repo -Description $repoDescription -UserToken $tokens.githubToken
+        }        
 
         git remote add origin "git@github.com:$repoOwner/$repo.git"
         

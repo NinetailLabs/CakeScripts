@@ -25,6 +25,7 @@ Param(
 [Alias("token")]
 [ValidateNotNullorEmpty()]
 [string]$UserToken = $gitToken,
+[string]$Organization,
  
 #write full native response to the pipeline
 [switch]$Raw
@@ -59,10 +60,17 @@ $body = $hash | ConvertTo-Json
  
 Write-Verbose "[PROCESS] Sending json"
 Write-Verbose $body
- 
+
+$urlToUse = "https://api.github.com/user/repos";
+if($Organization)
+{
+    $urlToUse = "https://api.github.com/orgs/$Organization/repos"
+    Write-Verbose "Setting up repository for organization";
+}
+
 #define parameter hashtable for Invoke-RestMethod
 $paramHash = @{
-Uri = "https://api.github.com/user/repos" 
+Uri = $urlToUse
 Method = "Post"
 body = $body 
 ContentType = "application/json"

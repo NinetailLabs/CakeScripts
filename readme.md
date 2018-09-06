@@ -64,7 +64,7 @@ Invoke-WebRequest https://raw.githubusercontent.com/NinetailLabs/CakeScripts/mas
 
 To run the quickstart with auto-creation invoke it as follows
 ```
-.\quickstart.ps1 -repoOwner <repo-owner> -repo <repo-name> -repoDescription <repo-description> [-documentBotname <document-bot-name>] -initProject $true
+.\quickstart.ps1 -repoOwner <repo-owner> -repo <repo-name> -repoDescription <repo-description> [-documentBotname <document-bot-name>] -initProject $true -forOrganization <boolean>
 ```
 
 Tokens can be generated as follows:
