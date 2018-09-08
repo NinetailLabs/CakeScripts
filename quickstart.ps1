@@ -119,6 +119,12 @@ if($initProject)
         Write-Host "No Github token could be found - No service setup will be done" -ForegroundColor Yellow;
         return;
     }
+    
+    if($tokens.coverallsToken)
+    {
+        Write-Host "Creating Coveralls repo...";
+        .\CakeScripts\scripts\CreateCoverallsRepo.ps1 -repoOwner $repoOwner -repo $repo -coverallstoken $tokens.coverallsToken
+    }
 
     Write-Host "Repository setup completed";
     Write-Host "";
@@ -208,12 +214,6 @@ if($initProject)
     {
         Write-host "Creating AppVeyor project...";
         .\CakeScripts\scripts\CreateAppVeyorRepo.ps1 -repoOwner $repoOwner -repo $repo -appveyortoken $tokens.appVeyortoken
-    }
-
-    if($tokens.coverallsToken)
-    {
-        Write-Host "Creating Coveralls repo...";
-        .\CakeScripts\scripts\CreateCoverallsRepo.ps1 -repoOwner $repoOwner -repo $repo -coverallstoken $tokens.coverallsToken
     }
 }
 
