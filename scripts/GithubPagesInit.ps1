@@ -3,8 +3,6 @@ Param
     [string]$repo
 )
 
-# TODO - Before this script is executed the main repo has to be committed
-
 Write-Host "Setting up gh-pages";
 
 Set-Location $repo;

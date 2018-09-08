@@ -190,7 +190,7 @@ if($initProject)
 
     # Ask user if new repository should be pushed to GitHub
     Write-Host "---";
-    Write-Host "Do you want to auto-push the repository to GitHub (y/n)?" -ForegroundColor Green;
+    Write-Host "Push the repository to GitHub (y/n)" -ForegroundColor Green;
     $key = Read-Host;
     if($key -eq "y")
     {
@@ -203,6 +203,13 @@ if($initProject)
         # Create Git tag so that SemVer.Git.MSBuild has a valid starting point
         git tag 1.0.0.0
         git push --set-upstream origin master
+
+        Write-Host "Set up gh-pages for this repository (y/n)" -ForegroundColor Green;
+        $key = Read-Host;
+        if($key -eq "y")
+        {
+            .\CakeScripts\scripts\GithubPagesInit.ps1 -repo $repo
+        }
     }   
     else
     {
