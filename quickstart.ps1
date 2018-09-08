@@ -202,7 +202,7 @@ if($initProject)
         git commit -a -m "Initial commit"
         # Create Git tag so that SemVer.Git.MSBuild has a valid starting point
         git tag 1.0.0.0
-        git push --set-upstream origin master
+        git push --set-upstream origin master --tags
 
         Write-Host "Set up gh-pages for this repository (y/n)" -ForegroundColor Green;
         $key = Read-Host;
