@@ -48,6 +48,8 @@ Beside the basic Quickstart configuration, a Visual Studio solutions will be cre
 The quickstart script can be used to automatically set up a GitHub repository, AppVeyor build for the repository as well as a Coveralls code coverage project for the repository.  
 In order for auto-creation to work the script requires an access token for each of the services that should be auto-configured. Tokens are retrieved from the `Tokens.json` file which
 should be in the same directory as the `quickstart.ps1` script.  
+Note: The first master commit will not push a Nuget package as the first package will simply be an empty shell
+
 A template can be downloaded using:
 ```
 Invoke-WebRequest https://raw.githubusercontent.com/NinetailLabs/CakeScripts/master/scripts/Tokens.json -OutFile Tokens.json
