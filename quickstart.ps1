@@ -27,9 +27,9 @@ Write-Host "Initializing Git repo...";
 git init $repo;
 Set-Location $repo;
 
-# Add VisualStudio .gitignore from GitHub
+# Add NineTail Labs VisualStudio .gitignore
 Write-Host "Grabbing VisualStudio .gitignore...";
-Invoke-WebRequest https://raw.githubusercontent.com/github/gitignore/master/VisualStudio.gitignore -OutFile .gitignore;
+Invoke-WebRequest https://raw.githubusercontent.com/NinetailLabs/CakeScripts/master/templates/ninetaillabs.gitignore -OutFile .gitignore;
 
 # Add Cake bootstrap script
 Write-Host "Grabbing Cake bootstrap script...";
