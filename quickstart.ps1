@@ -208,7 +208,7 @@ if($initProject)
         $key = Read-Host;
         if($key -eq "y")
         {
-            .\CakeScripts\scripts\GithubPagesInit.ps1 -repo $repo
+            .\CakeScripts\scripts\GithubPagesInit.ps1
         }
     }   
     else
