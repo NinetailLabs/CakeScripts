@@ -40,13 +40,7 @@ private bool CheckIfPackagesCanBePushed()
         Error("Unit tests failed - Not pushing NuGet packages");
         return false;
     }
-
-    if(buildCounter == 1 && branch == "master")
-    {
-        Information("First master commit will not be pushed to NuGet");
-        return false;
-    }
-
+    
     apiKey = EnvironmentVariable("NugetKey");
     if(string.IsNullOrEmpty(apiKey))
     {

@@ -120,18 +120,6 @@ if($initProject)
         return;
     }
 
-    if($tokens.appVeyortoken)
-    {
-        Write-host "Creating AppVeyor project...";
-        .\CakeScripts\scripts\CreateAppVeyorRepo.ps1 -repoOwner $repoOwner -repo $repo -appveyortoken $tokens.appVeyortoken
-    }
-
-    if($tokens.coverallsToken)
-    {
-        Write-Host "Creating Coveralls repo...";
-        .\CakeScripts\scripts\CreateCoverallsRepo.ps1 -repoOwner $repoOwner -repo $repo -coverallstoken $tokens.coverallsToken
-    }
-
     Write-Host "Repository setup completed";
     Write-Host "";
     Write-Host "User interaction is required to complete setup of AppVeyor.yml" -ForegroundColor Green;
@@ -214,6 +202,18 @@ if($initProject)
     else
     {
         Write-Host "Repository will not be pushed to GitHub";
+    }
+
+    if($tokens.appVeyortoken)
+    {
+        Write-host "Creating AppVeyor project...";
+        .\CakeScripts\scripts\CreateAppVeyorRepo.ps1 -repoOwner $repoOwner -repo $repo -appveyortoken $tokens.appVeyortoken
+    }
+
+    if($tokens.coverallsToken)
+    {
+        Write-Host "Creating Coveralls repo...";
+        .\CakeScripts\scripts\CreateCoverallsRepo.ps1 -repoOwner $repoOwner -repo $repo -coverallstoken $tokens.coverallsToken
     }
 }
 
