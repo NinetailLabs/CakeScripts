@@ -1,20 +1,11 @@
 # NineTail Labs - CakeScripts
-This is a collection of base scripts for [Cake](https://cakebuild.net) that is used by NineTail Labs to build our dotnet projects.
-The goal is to provide basic scripts that can be reused between project with minimal change while also allowing easy extensibility for specific project by simply swapping out a base script for a custom one for the specific project.
+This is a collection of base scripts for [Cake](https://cakebuild.net) that is used by NineTail Labs to build our dotnet projects.  
+The original goal of the project was simply to provide a set of Cake build scripts that could be shared between projects, however this has grown into a fully-automated project creation tool capable of creating a NetStandard2.0 project and auto-setup GitHub, AppVeyor and Coveralls for the project.
 
-## Usage
-- Grab the Cake bootstrap file from the Cake website by invoking
-```
-Invoke-WebRequest https://cakebuild.net/download/bootstrapper/windows -OutFile build.ps1
-```  
-
-- Add the CakeScripts repository as a Git submodule to the target project, then copy the `template.build.cake` file to the root of the repository (next to the `build.ps1` file from the step above) and rename it to `build.cake`. It is also possible to just copy the scripts directly over to the repository
-
-- Build the project by calling from PowerShell
-```
-.\build.ps1
-```
-If PowerShell has a security issue, read the Cake guide [here](https://cakebuild.net/docs/tutorials/powershell-security)
+## Requirements
+The following applications need to be installed and accessible on the Path:
+- [Git](https://git-scm.com/)
+- [DotNet Core](https://www.microsoft.com/net/download)
 
 ## QuickStart
 To quickly create and set up a new Git repository grab the QuickStart PowerShell script with the following
@@ -67,6 +58,14 @@ To run the quickstart with auto-creation invoke it as follows
 .\quickstart.ps1 -repoOwner <repo-owner> -repo <repo-name> -repoDescription <repo-description> [-documentBotname <document-bot-name>] -initProject $true -forOrganization <boolean>
 ```
 
+### Parameters
+- **repoOwner** - The name of the repository owner. In most cases this will be the user's GitHub username unless the repo is being set up for an organization  
+- **repo** - The name of the repository to create, this will also be the name of the project that is created  
+- **repoDescription** - The description for the project on GitHub  
+- **documentBoName** - Name of the Bot account used to publish documentation, if the user is going to use their own account then this should be the same as `repoOwner`  
+- **initProject** - Set to `$true` to set up the GitHub, AppVeyor and Coveralls projects  
+- **forOrganization** - Set to `$true` if the repository should be created under an organization otherwise it is set up for the user's own account   
+
 Tokens can be generated as follows:
 #### Github
 Token can be generated [here](https://github.com/settings/tokens).  
@@ -80,6 +79,9 @@ Token can be generated [here](https://ci.appveyor.com/api-token)
 
 Tokens allow access to your account and should be carefully gaurded! It is recommended to store the Tokens.json file in a password safe, that way the tokens are kept secure
 and can be easily retrieved when needed.
+
+## Troubleshooting
+If PowerShell has a security issue, read the Cake guide [here](https://cakebuild.net/docs/tutorials/powershell-security)
 
 ## Special Thanks
 Thanks to [Jeffery Hicks](https://jdhitsolutions.com/blog/about-me/) who provided the excellent [code](https://jdhitsolutions.com/blog/powershell/5373/creating-a-github-repository-from-powershell/) for creating GitHub repositories from powershell
