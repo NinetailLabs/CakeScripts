@@ -1,11 +1,5 @@
-Param
-(
-    [string]$repo
-)
-
 Write-Host "Setting up gh-pages";
 
-Set-Location $repo;
 git symbolic-ref HEAD refs/heads/gh-pages
 Remove-Item .git/index
 Remove-Item "CakeScripts" -recurse -force
