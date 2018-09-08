@@ -41,6 +41,12 @@ private bool CheckIfPackagesCanBePushed()
         return false;
     }
 
+    if(buildCounter == 1 && branch == "master")
+    {
+        Information("First master commit will not be pushed to NuGet");
+        return false;
+    }
+
     apiKey = EnvironmentVariable("NugetKey");
     if(string.IsNullOrEmpty(apiKey))
     {
