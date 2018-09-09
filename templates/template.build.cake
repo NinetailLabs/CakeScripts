@@ -7,8 +7,7 @@
 #load "CakeScripts/base/base.nuget.restore.cake"
 #load "CakeScripts/base/base.paket.restore.cake"
 #load "CakeScripts/base/base.msbuild.cake"
-#load "CakeScripts/base/base.nunit.cake"
-#load "CakeScripts/base/base.coveralls.upload.cake"
+#load "CakeScripts/base/base.dotnetcoretest.minicover.cake"
 #load "CakeScripts/base/base.gitreleasenotes.cake"
 #load "CakeScripts/base/base.nuget.pack.cake"
 #load "CakeScripts/base/base.nuget.push.cake"
@@ -16,7 +15,17 @@
 
 #endregion
 
+#region Variables
+
+var miniCoverProject = string.Format("./{0}.Tests/{0}.Tests.csproj", projectName);
+
+#endregion
+
+
 #region Tasks
+
+// Set up the MiniCover project
+SetMiniCoverToolsProject(miniCoverProject);
 
 // Set up variables specific for the project
 Task ("VariableSetup")
@@ -40,7 +49,6 @@ Task ("Default")
 	.IsDependentOn ("PaketRestore")
 	.IsDependentOn ("Build")
 	.IsDependentOn ("UnitTests")
-	.IsDependentOn ("CoverageUpload")
 	.IsDependentOn ("GenerateReleaseNotes")
 	.IsDependentOn ("NugetPack")
 	.IsDependentOn ("NugetPush")
