@@ -104,9 +104,10 @@ private void ExecuteUnitTests()
         }
         testPassed = true;
     }
-    catch(Exception)
+    catch(Exception excception)
     {
         Error("There was an error while executing tests");
+        Error(excception);
     }    
 }
 
