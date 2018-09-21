@@ -91,8 +91,6 @@ private void ExecuteUnitTests()
         GetMiniCoverSettings());
         MiniCoverUninstrument();
 
-        Information($"Coverall Repo token: {coverallRepoToken}");
-
         if(string.IsNullOrEmpty(coverallRepoToken))
         {
             MiniCoverReport(new MiniCoverSettings()
