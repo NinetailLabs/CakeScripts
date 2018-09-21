@@ -91,22 +91,29 @@ private void ExecuteUnitTests()
         GetMiniCoverSettings());
         MiniCoverUninstrument();
 
+        Information($"Coverall Repo token: {coverallRepoToken}");
+
         if(string.IsNullOrEmpty(coverallRepoToken))
         {
-            MiniCoverReport(new MiniCoverSettings().GenerateReport(ReportType.XML));
+            MiniCoverReport(new MiniCoverSettings()
+            .WithNonFatalThreshold()
+            .GenerateReport(ReportType.XML));
         }
         else
         {
             MiniCoverReport(new MiniCoverSettings
             {
                 Coveralls = GetCoverallSettings()
-            }.GenerateReport(ReportType.COVERALLS | ReportType.XML));
+            }
+            .WithNonFatalThreshold()
+            .GenerateReport(ReportType.COVERALLS | ReportType.XML));
         }
         testPassed = true;
     }
-    catch(Exception)
+    catch(Exception exception)
     {
         Error("There was an error while executing tests");
+        Error(exception);
     }    
 }
 
@@ -140,7 +147,8 @@ private MiniCoverSettings GetMiniCoverSettings()
     return new MiniCoverSettings()
         .WithAssembliesMatching(unitTestFilter)
         .WithoutSourcesMatching(testCodeFilter)
-        .WithSourcesMatching(sourceCodeFilter);
+        .WithSourcesMatching(sourceCodeFilter)
+        .WithNonFatalThreshold();
 }
 
 #endregion
