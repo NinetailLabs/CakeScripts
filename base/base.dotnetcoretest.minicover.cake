@@ -93,17 +93,13 @@ private void ExecuteUnitTests()
 
         if(string.IsNullOrEmpty(coverallRepoToken))
         {
-            MiniCoverReport(new MiniCoverSettings()
-            .WithNonFatalThreshold()
+            MiniCoverReport(GetMiniCoverSettings()
             .GenerateReport(ReportType.XML));
         }
         else
         {
-            MiniCoverReport(new MiniCoverSettings
-            {
-                Coveralls = GetCoverallSettings()
-            }
-            .WithNonFatalThreshold()
+            MiniCoverReport(GetMiniCoverSettings()
+            .WithCoverallsSettings(GetCoverallSettings())            
             .GenerateReport(ReportType.COVERALLS | ReportType.XML));
         }
         testPassed = true;
