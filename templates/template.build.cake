@@ -17,15 +17,12 @@
 
 #region Variables
 
-var miniCoverProject = string.Format("./{0}.Tests/{0}.Tests.csproj", projectName);
+var miniCoverProject = "";
 
 #endregion
 
 
 #region Tasks
-
-// Set up the MiniCover project
-SetMiniCoverToolsProject(miniCoverProject);
 
 // Set up variables specific for the project
 Task ("VariableSetup")
@@ -38,6 +35,10 @@ Task ("VariableSetup")
 		botEmail = "";
 		botToken = EnvironmentVariable("BotToken");
 		gitRepo = string.Format("https://github.com/{0}/{1}.git", repoOwner, projectName);
+
+		// Set up the MiniCover project
+		miniCoverProject = string.Format("./{0}.Tests/{0}.Tests.csproj", projectName);
+		SetMiniCoverToolsProject(miniCoverProject);
 	});
 
 Task ("Default")
