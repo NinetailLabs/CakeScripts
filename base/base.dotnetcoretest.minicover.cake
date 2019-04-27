@@ -25,6 +25,7 @@ var unitTestFilter = "./*Tests/bin/Release/netcoreapp2.1/*.dll";
 var sourceCodeFilter = "./**/*.cs";
 // Filter for source code files that must be excluded from the coverage results
 var testCodeFilter = "./*Tests/*.cs";
+var testCodeInFolderFilter = "./*Tests/**/*.cs";
 // Coverall token
 var coverallRepoToken = EnvironmentVariable("CoverallRepoToken");
 
@@ -41,7 +42,13 @@ Task ("UnitTests")
 
         RemoveCoverageResults();
         ExecuteUnitTests();
-        PushTestResults(testResultFile);
+
+        var resultFiles = GetFiles("TestResult_*.xml");
+        foreach(var file in resultFiles)
+        {
+            Information($"Pushing test result file '{file.FullPath}'");
+            PushTestResults(file.FullPath);
+        }
 
         EndBlock(blockText);
     });
@@ -93,19 +100,23 @@ private void ExecuteUnitTests()
 
         if(string.IsNullOrEmpty(coverallRepoToken))
         {
-            MiniCoverReport(new MiniCoverSettings()
-            .WithNonFatalThreshold()
+            MiniCoverReport(GetMiniCoverSettings()
             .GenerateReport(ReportType.XML));
         }
         else
         {
-            MiniCoverReport(new MiniCoverSettings
+            try
             {
-                Coveralls = GetCoverallSettings()
+                MiniCoverReport(GetMiniCoverSettingsWithCoveralls()
+                .GenerateReport(ReportType.COVERALLS | ReportType.XML));
             }
-            .WithNonFatalThreshold()
-            .GenerateReport(ReportType.COVERALLS | ReportType.XML));
+            catch(Exception exception)
+            {
+                Warning(exception);
+            }
         }
+        
+
         testPassed = true;
     }
     catch(Exception exception)
@@ -145,6 +156,20 @@ private MiniCoverSettings GetMiniCoverSettings()
     return new MiniCoverSettings()
         .WithAssembliesMatching(unitTestFilter)
         .WithoutSourcesMatching(testCodeFilter)
+        .WithoutSourcesMatching(testCodeInFolderFilter)
+        .WithSourcesMatching(sourceCodeFilter)
+        .WithNonFatalThreshold();
+}
+
+private MiniCoverSettings GetMiniCoverSettingsWithCoveralls()
+{
+    return new MiniCoverSettings
+        {
+            Coveralls = GetCoverallSettings()
+        }
+        .WithAssembliesMatching(unitTestFilter)
+        .WithoutSourcesMatching(testCodeFilter)
+        .WithoutSourcesMatching(testCodeInFolderFilter)
         .WithSourcesMatching(sourceCodeFilter)
         .WithNonFatalThreshold();
 }

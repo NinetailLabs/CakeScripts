@@ -4,14 +4,14 @@
 
 #region Addins
 
-#addin nuget:?package=Cake.DocFx
-#addin nuget:?package=Cake.Git
+#addin nuget:?package=Cake.DocFx&version=0.12.0
+#addin nuget:?package=Cake.Git&version=0.19.0
 
 #endregion
 
 #region Tools
 
-#tool nuget:?package=docfx.console
+#tool nuget:?package=docfx.console&version=2.42.0
 
 #endregion
 

@@ -4,13 +4,13 @@
 
 #region Addins
 
-#addin nuget:?package=Cake.Paket
+#addin nuget:?package=Cake.Paket&version=4.0.0
 
 #endregion
 
 #region Tools
 
-#tool nuget:?package=Paket
+#tool nuget:?package=Paket&version=5.181.1
 
 #endregion
 
