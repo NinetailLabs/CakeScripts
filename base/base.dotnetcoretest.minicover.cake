@@ -92,25 +92,17 @@ private void ExecuteUnitTests()
         GetMiniCoverSettings());
         MiniCoverUninstrument();
 
-        try
+        if(string.IsNullOrEmpty(coverallRepoToken))
         {
-            if(string.IsNullOrEmpty(coverallRepoToken))
-            {
-                MiniCoverReport(GetMiniCoverSettings()
-                .GenerateReport(ReportType.XML));
-            }
-            else
-            {
-                MiniCoverReport(GetMiniCoverSettings()
-                .WithCoverallsSettings(coveralls => GetCoverallSettings())            
-                .GenerateReport(ReportType.COVERALLS | ReportType.XML));
-            }
+            MiniCoverReport(GetMiniCoverSettings()
+            .GenerateReport(ReportType.XML));
         }
-        catch(Exception exception)
+        else
         {
-            Warning("An error occured while to create coverage results");
-            Warning(exception);
+            MiniCoverReport(GetMiniCoverSettingsWithCoveralls()
+            .GenerateReport(ReportType.COVERALLS | ReportType.XML));
         }
+        
 
         testPassed = true;
     }
@@ -149,6 +141,19 @@ private DotNetCoreTestSettings GetTestSettings()
 private MiniCoverSettings GetMiniCoverSettings()
 {
     return new MiniCoverSettings()
+        .WithAssembliesMatching(unitTestFilter)
+        .WithoutSourcesMatching(testCodeFilter)
+        .WithoutSourcesMatching(testCodeInFolderFilter)
+        .WithSourcesMatching(sourceCodeFilter)
+        .WithNonFatalThreshold();
+}
+
+private MiniCoverSettings GetMiniCoverSettingsWithCoveralls()
+{
+    return new MiniCoverSettings
+        {
+            Coveralls = GetCoverallSettings()
+        }
         .WithAssembliesMatching(unitTestFilter)
         .WithoutSourcesMatching(testCodeFilter)
         .WithoutSourcesMatching(testCodeInFolderFilter)
