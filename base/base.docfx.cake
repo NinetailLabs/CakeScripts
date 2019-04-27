@@ -11,7 +11,7 @@
 
 #region Tools
 
-#tool nuget:?package=docfx.console
+#tool nuget:?package=docfx.console&version=2.42.0
 
 #endregion
 
