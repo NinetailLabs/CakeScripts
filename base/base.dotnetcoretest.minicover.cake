@@ -91,17 +91,26 @@ private void ExecuteUnitTests()
         GetMiniCoverSettings());
         MiniCoverUninstrument();
 
-        if(string.IsNullOrEmpty(coverallRepoToken))
+        try
         {
-            MiniCoverReport(GetMiniCoverSettings()
-            .GenerateReport(ReportType.XML));
+            if(string.IsNullOrEmpty(coverallRepoToken))
+            {
+                MiniCoverReport(GetMiniCoverSettings()
+                .GenerateReport(ReportType.XML));
+            }
+            else
+            {
+                MiniCoverReport(GetMiniCoverSettings()
+                .WithCoverallsSettings(coveralls => GetCoverallSettings())            
+                .GenerateReport(ReportType.COVERALLS | ReportType.XML));
+            }
         }
-        else
+        catch(Exception exception)
         {
-            MiniCoverReport(GetMiniCoverSettings()
-            .WithCoverallsSettings(coveralls => GetCoverallSettings())            
-            .GenerateReport(ReportType.COVERALLS | ReportType.XML));
+            Warning("An error occured while to create coverage results");
+            Warning(exception);
         }
+
         testPassed = true;
     }
     catch(Exception exception)
