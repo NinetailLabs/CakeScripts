@@ -99,7 +99,7 @@ private void ExecuteUnitTests()
         else
         {
             MiniCoverReport(GetMiniCoverSettings()
-            .WithCoverallsSettings(GetCoverallSettings())            
+            .WithCoverallsSettings(coveralls => GetCoverallSettings())            
             .GenerateReport(ReportType.COVERALLS | ReportType.XML));
         }
         testPassed = true;
