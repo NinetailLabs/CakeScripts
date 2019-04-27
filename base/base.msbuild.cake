@@ -4,7 +4,7 @@
 
 #region Addins
 
-#addin nuget:?package=Cake.VersionReader
+#addin nuget:?package=Cake.VersionReader&version=5.1.0
 
 #endregion
 

@@ -4,13 +4,13 @@
 
 #region Addins
 
-#addin nuget:?package=Cake.FileHelpers
+#addin nuget:?package=Cake.FileHelpers&version=3.2.0
 
 #endregion
 
 #region Tools
 
-#tool nuget:?package=GitReleaseNotes
+#tool nuget:?package=GitReleaseNotes&version=0.7.1
 
 #endregion
 

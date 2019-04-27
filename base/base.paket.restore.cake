@@ -4,7 +4,7 @@
 
 #region Addins
 
-#addin nuget:?package=Cake.Paket
+#addin nuget:?package=Cake.Paket&version=4.0.0
 
 #endregion
 
