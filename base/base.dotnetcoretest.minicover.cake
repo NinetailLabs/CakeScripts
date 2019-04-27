@@ -42,7 +42,13 @@ Task ("UnitTests")
 
         RemoveCoverageResults();
         ExecuteUnitTests();
-        PushTestResults(testResultFile);
+
+        var resultFiles = GetFiles("TestResult_*.xml");
+        foreach(var file in resultFiles)
+        {
+            Information($"Pushing test result file '{file.FullPath}'");
+            PushTestResults(file.FullPath);
+        }
 
         EndBlock(blockText);
     });
