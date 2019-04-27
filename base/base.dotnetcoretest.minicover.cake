@@ -99,8 +99,15 @@ private void ExecuteUnitTests()
         }
         else
         {
-            MiniCoverReport(GetMiniCoverSettingsWithCoveralls()
-            .GenerateReport(ReportType.COVERALLS | ReportType.XML));
+            try
+            {
+                MiniCoverReport(GetMiniCoverSettingsWithCoveralls()
+                .GenerateReport(ReportType.COVERALLS | ReportType.XML));
+            }
+            catch(Exception exception)
+            {
+                Warning(exception);
+            }
         }
         
 
