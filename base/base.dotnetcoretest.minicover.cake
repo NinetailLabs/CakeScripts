@@ -25,6 +25,7 @@ var unitTestFilter = "./*Tests/bin/Release/netcoreapp2.1/*.dll";
 var sourceCodeFilter = "./**/*.cs";
 // Filter for source code files that must be excluded from the coverage results
 var testCodeFilter = "./*Tests/*.cs";
+var testCodeInFolderFilter = "./*Tests/**/*.cs";
 // Coverall token
 var coverallRepoToken = EnvironmentVariable("CoverallRepoToken");
 
@@ -150,6 +151,7 @@ private MiniCoverSettings GetMiniCoverSettings()
     return new MiniCoverSettings()
         .WithAssembliesMatching(unitTestFilter)
         .WithoutSourcesMatching(testCodeFilter)
+        .WithoutSourcesMatching(testCodeInFolderFilter)
         .WithSourcesMatching(sourceCodeFilter)
         .WithNonFatalThreshold();
 }
