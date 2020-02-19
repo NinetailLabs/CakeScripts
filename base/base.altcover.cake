@@ -72,6 +72,8 @@ private void ExecuteUnitTests()
     {
         try
         {
+            var assemblyFilename = assembly.GetFilenameWithoutExtension();
+
             var coverOutput = MakeAbsolute(File(coverPath));
             var testResultOutput = MakeAbsolute(File(testResultFile));
 
@@ -83,7 +85,7 @@ private void ExecuteUnitTests()
             ArgumentCustomization = args=> args
                 .Append("/p:AltCover=true")
                 .Append($"/p:AltCoverXmlReport={coverOutput}")
-                .Append("/p:AltCoverAssemblyFilter=NUnit|Microsoft*")
+                .Append($"/p:AltCoverAssemblyFilter=NUnit|Microsoft*|{assemblyFilename}")
                 .Append("--test-adapter-path:.")
                 .Append("--logger:Appveyor")
 		};
