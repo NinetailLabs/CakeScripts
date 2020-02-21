@@ -1,5 +1,11 @@
 /*
- * Generate DocFX documentation and push it to the repository
+ * Generate DocFX documentation and push it to the repository.
+ * The script will download the msdn.4.5.2 and extract is to the ./tools/MsdnDocs folder making it easy to have this available when building documents.
+ * Simply add the snippet below to the docfx.json to ensure it has access to the package content.
+ * "xref": [
+ *     "../tools/MsdnDocs/content/msdn.4.5.2.zip",
+ *     "../tools/MsdnDocs/content/namespaces.4.5.2.zip"
+ *   ]
  */
 
 #region Addins
@@ -40,11 +46,12 @@ Task ("Documentation")
         var blockText = "Build Success Check";
         StartBlock(blockText);
 
+        GitReset(".", GitResetMode.Hard);
+
         if(!CheckIfDocumentationShouldBeGenerated())
         {
             return;
         }
-
 
         DownloadMsdnLinkPackage();
         GenerateDocumentation();
@@ -55,8 +62,6 @@ Task ("Documentation")
 // Generate the actual DocFX documentation and push it to the repo
 private void GenerateDocumentation()
 {
-    GitReset(".", GitResetMode.Hard);
-
     var tool = Context.Tools.Resolve("docfx.exe");
     StartProcess(tool, new ProcessSettings{Arguments = "docfx_project/docfx.json"});
     var newDocumentationPath = MakeAbsolute(Directory("docfx_project/_site"));
