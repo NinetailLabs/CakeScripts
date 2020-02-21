@@ -37,31 +37,52 @@ var gitRepo = "";
 // Generates DocFX documentation and if the build is master pushes it to the repo
 Task ("Documentation")
 	.Does (() => {
-		GitReset(".", GitResetMode.Hard);
+        var blockText = "Build Success Check";
+        StartBlock(blockText);
 
         if(!CheckIfDocumentationShouldBeGenerated())
         {
             return;
         }
 
-		var tool = Context.Tools.Resolve("docfx.exe");
-		StartProcess(tool, new ProcessSettings{Arguments = "docfx_project/docfx.json"});
-		var newDocumentationPath = MakeAbsolute(Directory("docfx_project/_site"));
-		
-		Information("Cloning documentation branch");
-		GitClone(gitRepo, MakeAbsolute(Directory("docClone")), new GitCloneSettings{
-			BranchName = documentBranch
-		});
 
-		Information("Preparing updated site");
-		CopyDirectory(MakeAbsolute(Directory("docClone/.git")), MakeAbsolute(Directory("docfx_project/_site/.git")));
-		GitAddAll(newDocumentationPath);
+        DownloadMsdnLinkPackage();
+        GenerateDocumentation();
 
-		Information("Pushing updated documentation to repo");
-		GitCommit(newDocumentationPath, botName, botEmail, "Documentation for " + version);
-		GitPush(newDocumentationPath, botName, botToken, documentBranch);
-		Information("Completed Documentation update");
+        EndBlock(blockText);
 	});
+
+// Generate the actual DocFX documentation and push it to the repo
+private void GenerateDocumentation()
+{
+    GitReset(".", GitResetMode.Hard);
+
+    var tool = Context.Tools.Resolve("docfx.exe");
+    StartProcess(tool, new ProcessSettings{Arguments = "docfx_project/docfx.json"});
+    var newDocumentationPath = MakeAbsolute(Directory("docfx_project/_site"));
+    
+    Information("Cloning documentation branch");
+    GitClone(gitRepo, MakeAbsolute(Directory("docClone")), new GitCloneSettings{
+        BranchName = documentBranch
+    });
+
+    Information("Preparing updated site");
+    CopyDirectory(MakeAbsolute(Directory("docClone/.git")), MakeAbsolute(Directory("docfx_project/_site/.git")));
+    GitAddAll(newDocumentationPath);
+
+    Information("Pushing updated documentation to repo");
+    GitCommit(newDocumentationPath, botName, botEmail, "Documentation for " + version);
+    GitPush(newDocumentationPath, botName, botToken, documentBranch);
+    Information("Completed Documentation update");
+}
+
+// Download the MSDN link Nuget package and extract it to the Tools directory
+private void DownloadMsdnLinkPackage()
+{
+    Information("Downloading MSDN Nuget package");
+    DownloadFile("https://www.nuget.org/api/v2/package/msdn.4.5.2/0.1.0-alpha-1611021200", $"./tools/MsdnDocs.nupkg");
+    Unzip("./tools/MsdnDocs.nupkg", "./tools/MsdnDocs");
+}
 
 #endregion
 
