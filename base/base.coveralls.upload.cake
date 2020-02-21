@@ -4,13 +4,13 @@
 
 #region Addins
 
-#addin nuget:?package=Cake.Coveralls&version=0.9.0
+#addin nuget:?package=Cake.Coveralls&version=0.10.1
 
 #endregion
 
 #region Tools
 
-#tool nuget:?package=coveralls.io&version=1.3.4
+#tool nuget:?package=coveralls.io&version=1.4.2
 
 #endregion
 

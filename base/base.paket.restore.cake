@@ -10,7 +10,7 @@
 
 #region Tools
 
-#tool nuget:?package=Paket&version=5.181.1
+#tool nuget:?package=Paket&version=5.242.2
 
 #endregion
 

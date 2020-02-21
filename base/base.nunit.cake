@@ -5,7 +5,7 @@
 
 #region Tools
 
-#tool nuget:?package=NUnit.ConsoleRunner&version=3.10.0
+#tool nuget:?package=NUnit.ConsoleRunner&version=3.11.1
 #tool nuget:?package=OpenCover&version=4.7.922
 
 #endregion
