@@ -85,7 +85,7 @@ private void ExecuteUnitTests()
             ArgumentCustomization = args=> args
                 .Append("/p:AltCover=true")
                 .Append($"/p:AltCoverXmlReport={coverOutput}")
-                .Append($"/p:AltCoverAssemblyFilter=NUnit|XUnit|Microsoft*|{assemblyFilename}")
+                .Append($"/p:AltCoverAssemblyFilter=NUnit|xunit|Microsoft*|{assemblyFilename}")
                 .Append("--test-adapter-path:.")
                 .Append("--logger:Appveyor")
 		};
