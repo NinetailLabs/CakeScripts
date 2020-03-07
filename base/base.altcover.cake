@@ -15,6 +15,8 @@ var coverPath = "./coverageResults.xml";
 var testResultFile = "./TestResult.xml";
 // Filter used to locate unit test dlls
 var unitTestFilter = "./*Tests/*.Tests.csproj";
+// Collection of namespaces to exclude
+var excludedNamespaces = new List<string> { "NUnit", "xunit", "Microsoft*" };
 
 #endregion
 
@@ -45,6 +47,11 @@ Task ("FailBuildIfTestFailed")
 
         EndBlock(blockText);
     });
+
+#endregion
+
+#region Public Methods
+
 
 #endregion
 
@@ -79,13 +86,16 @@ private void ExecuteUnitTests()
 
             Information($"Testing: {assembly}");
 
+            excludedNamespaces.Add(assemblyFilename);
+            var excludeString = string.Join("|", excludedNamespaces);
+            
             var testSettings = new DotNetCoreTestSettings {
 			Configuration = buildConfiguration,
 			NoBuild = true,
             ArgumentCustomization = args=> args
                 .Append("/p:AltCover=true")
                 .Append($"/p:AltCoverXmlReport={coverOutput}")
-                .Append($"/p:AltCoverAssemblyFilter=NUnit|xunit|Microsoft*|{assemblyFilename}")
+                .Append($"/p:AltCoverAssemblyFilter={excludeString}")
                 .Append("--test-adapter-path:.")
                 .Append("--logger:Appveyor")
 		};
