@@ -86,7 +86,7 @@ private void ExecuteUnitTests()
 
             Information($"Testing: {assembly}");
 
-            excludedNamespaces.Add(assemblyFilename.toString());
+            excludedNamespaces.Add(assemblyFilename.ToString());
             var excludeString = string.Join("|", excludedNamespaces);
             
             var testSettings = new DotNetCoreTestSettings {
