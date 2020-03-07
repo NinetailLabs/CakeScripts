@@ -52,6 +52,11 @@ Task ("FailBuildIfTestFailed")
 
 #region Public Methods
 
+// Add namespaces to the exclusion list
+public void AddNamespaceExclusion(string namespaceToExclude)
+{
+    excludedNamespaces.Add(namespaceToExclude);
+}
 
 #endregion
 
