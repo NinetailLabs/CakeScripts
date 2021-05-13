@@ -10,8 +10,8 @@
 
 #region Addins
 
-#addin nuget:?package=Cake.DocFx&version=0.13.1
-#addin nuget:?package=Cake.Git&version=0.21.0
+#addin nuget:?package=Cake.DocFx&version=1.0.0
+#addin nuget:?package=Cake.Git&version=1.0.1
 
 #endregion
 
