@@ -4,7 +4,7 @@
 
 #region Addins
 
-#addin nuget:?package=Cake.Coveralls&version=0.10.1
+#addin nuget:?package=Cake.Coveralls&version=1.0.1
 
 #endregion
 
