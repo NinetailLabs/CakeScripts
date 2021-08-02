@@ -58,8 +58,8 @@ if($initProject)
     dotnet sln "$repo.sln" add ".\$repo\$repo.csproj"
 
     # Add base Nuget packages
-    dotnet add ".\$repo\$repo.csproj" package SemVer.Git.MSBuild
-    dotnet add ".\$repo\$repo.csproj" package Microsoft.SourceLink.GitHub -v 1.0.0-beta-63127-02
+    dotnet add ".\$repo\$repo.csproj" package SemVer.Git.MSBuild -v 1.3.0
+    dotnet add ".\$repo\$repo.csproj" package Microsoft.SourceLink.GitHub -v 1.0.0
 
     # Copy empty nuspec file to the project directory
     Copy-Item -Path ".\CakeScripts\visualstudio\Empty.nuspec" -Destination ".\$repo\$repo.nuspec";
@@ -67,7 +67,7 @@ if($initProject)
     Copy-Item -Path ".\CakeScripts\visualstudio\SemVer.MSBuild.props" -Destination ".\$repo\SemVer.MSBuild.props";
 
     # Create the test project and add it to the solution
-    dotnet new classlib -f netcoreapp2.1 -o "$repo.Tests"
+    dotnet new classlib -f net5.0 -o "$repo.Tests"
     dotnet sln "$repo.sln" add ".\$repo.Tests\$repo.Tests.csproj"
 
     # Add test Nuget packages
@@ -76,6 +76,8 @@ if($initProject)
     dotnet add ".\$repo.Tests\$repo.Tests.csproj" package xunit.runner.visualstudio
     dotnet add ".\$repo.Tests\$repo.Tests.csproj" package FluentAssertions
     dotnet add ".\$repo.Tests\$repo.Tests.csproj" package Moq
+    dotnet add ".\$repo.Tests\$repo.Tests.csproj" Appveyor.TestLogger
+    dotnet add ".\$repo.Tests\$repo.Tests.csproj" altcover
 
     # Do package restore
     dotnet restore
