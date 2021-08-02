@@ -17,5 +17,5 @@ environment:
   BotToken:
     secure: EncryptedBotTokenGoesHere
 build_script:
-- ps: .\build.ps1 -branch $env:APPVEYOR_REPO_BRANCH -buildCounter $env:APPVEYOR_BUILD_NUMBER -gitHash $env:APPVEYOR_REPO_COMMIT -commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE
+- ps: .\build.ps1 --branch $env:APPVEYOR_REPO_BRANCH --buildCounter $env:APPVEYOR_BUILD_NUMBER --gitHash $env:APPVEYOR_REPO_COMMIT --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE
 test: off
