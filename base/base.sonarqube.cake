@@ -38,7 +38,8 @@ Task("SonarQubeStartup")
 
 		var coveragePath = MakeAbsolute(File(coverPath));
 		
-		SonarBegin(new SonarBeginSettings{
+		SonarBegin(new SonarBeginSettings
+		{
 			Key = sonarQubeKey,
 			Branch = sonarBranch,
 			Organization = sonarOrganization,
@@ -56,7 +57,10 @@ Task("SonarQubeShutdown")
 	.Does(() => {
 		StartBlock("SonarQube Shutdown");
 		
-		SonarEnd(new SonarEndSettings{});
+		SonarEnd(new SonarEndSettings
+		{
+			Login = sonarLogin
+		});
 		
 		EndBlock("SonarQube Shutdown");
 	});
