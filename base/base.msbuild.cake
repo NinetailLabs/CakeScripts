@@ -8,6 +8,15 @@
 
 #endregion
 
+#region Variables
+
+// The version of MSBuild to use
+var msBuildPlatform = MSBuildPlatform.Automatic;
+// The target platform to build for (MSIL is AnyCPU)
+var platformTarget = PlatformTarget.MSIL;
+
+#endregion
+
 #region Tasks
 
 Task ("Build")
@@ -22,6 +31,8 @@ Task ("Build")
             MSBuild (solution.Value, new MSBuildSettings 
                             {
                                 Verbosity = Verbosity.Quiet,
+                                MSBuildPlatform = msBuildPlatform,
+                                PlatformTarget = platformTarget,
                                 Configuration = buildConfiguration
                             });
 
