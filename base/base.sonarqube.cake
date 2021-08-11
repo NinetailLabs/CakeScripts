@@ -16,12 +16,16 @@
 
 #region Variables
 
-// SonarQube server URL
-var sonarQubeServerUrl = "";
-// SonarQube project name
-var sonarQubeProject = "";
 // The secret key for the SonarQube project
 var sonarQubeKey = "";
+// The branch that is being analyzed
+var sonarBranch = "";
+// The organization that the code is being analyzed for
+var sonarOrganization = "";
+// SonarQube server URL
+var sonarQubeServerUrl = "";
+// The login token for the analyzer account
+var sonarLogin = "";
 
 #endregion
 
@@ -35,12 +39,13 @@ Task("SonarQubeStartup")
 		var coveragePath = MakeAbsolute(File(coverPath));
 		
 		SonarBegin(new SonarBeginSettings{
+			Key = sonarQubeKey,
+			Branch = sonarBranch,
+			Organization = sonarOrganization,
 			Url = sonarQubeServerUrl,
 			Verbose = true,
-			Key = sonarQubeKey,
-			Name = sonarQubeProject,
 			OpenCoverReportsPath = coveragePath.ToString(),
-			NUnitReportsPath = testResultFile
+			Login = sonarLogin
 		});
 
 		EndBlock("SonarQube Startup");
