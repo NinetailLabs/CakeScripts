@@ -53,12 +53,6 @@ Task("SonarQubeShutdown")
 		
 		SonarEnd(new SonarEndSettings{});
 		
-		if(!testsSucceeded)
-		{
-			Error("Terminating the build as unit test have failed");
-			throw new Exception("Unit Test failed - Build terminated");
-		}
-		
 		EndBlock("SonarQube Shutdown");
 	});
 
