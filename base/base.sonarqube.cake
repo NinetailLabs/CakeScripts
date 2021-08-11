@@ -26,6 +26,8 @@ var sonarOrganization = "";
 var sonarQubeServerUrl = "";
 // The login token for the analyzer account
 var sonarLogin = "";
+// Indicate if Sonar should use verbose output
+var sonarVerbose = false;
 
 #endregion
 
@@ -44,7 +46,7 @@ Task("SonarQubeStartup")
 			Branch = sonarBranch,
 			Organization = sonarOrganization,
 			Url = sonarQubeServerUrl,
-			Verbose = true,
+			Verbose = sonarVerbose,
 			OpenCoverReportsPath = coveragePath.ToString(),
 			Login = sonarLogin
 		});
