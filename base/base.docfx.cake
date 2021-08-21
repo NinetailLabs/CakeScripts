@@ -11,7 +11,7 @@
 #region Addins
 
 #addin nuget:?package=Cake.DocFx&version=1.0.0
-#addin nuget:?package=Cake.Git&version=1.1.0
+#addin nuget:?package=Cake.Git&version=1.0.1
 
 #endregion
 
