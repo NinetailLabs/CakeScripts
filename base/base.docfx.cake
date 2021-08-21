@@ -11,13 +11,13 @@
 #region Addins
 
 #addin nuget:?package=Cake.DocFx&version=1.0.0
-#addin nuget:?package=Cake.Git&version=1.0.1
+#addin nuget:?package=Cake.Git&version=1.1.0
 
 #endregion
 
 #region Tools
 
-#tool nuget:?package=docfx.console&version=2.48.1
+#tool nuget:?package=docfx.console&version=2.58.0
 
 #endregion
 
