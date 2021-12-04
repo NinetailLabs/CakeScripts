@@ -3,6 +3,8 @@
  * Script uses OpenCover to calculate coverage results
  */
 
+// Deprecation notice: This script is no longer supported. It will be removed in a future version.
+
 #region Tools
 
 #tool nuget:?package=NUnit.ConsoleRunner&version=3.11.1

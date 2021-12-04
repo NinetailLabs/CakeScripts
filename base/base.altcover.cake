@@ -5,6 +5,8 @@
  * The test output is geared entirely towards AppVeyor, however there are packages available that can also output NUnit3 xml
  */
 
+ // Deprecation notice: This script is no longer supported. It will be removed in a future version.
+
 #region Variables
 
 // Indicate if the unit tests passed
