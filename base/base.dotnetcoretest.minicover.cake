@@ -3,6 +3,9 @@
  * Script uses MiniCover to provide code coverage
  * MiniCover requires setting  [SetMiniCoverToolsProject("");] to a project that contains the MiniCover cli tool
  */
+
+// Deprecation notice: This script is no longer supported. It will be removed in a future version.
+
 #region AddIns
 
 #addin Cake.MiniCover&version=0.29.0-next20180721071547
