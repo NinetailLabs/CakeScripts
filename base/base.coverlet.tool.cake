@@ -22,6 +22,8 @@ var unitTestFilter = "./*Tests/bin/Release/net*/*.Tests.dll";
 var excludedNamespaces = new List<string> { "[Microsoft.*]*" };
 // Collection of namespaces to include
 var includedNamespaces = new List<string>();
+// Collection of files to exclude
+var excludedFiles = new List<string>();
 
 #endregion
 
@@ -92,6 +94,7 @@ private void ExecuteUnitTests()
             
             var toExclude = "";
             var toInclude = "";
+            var filesToExclude = "";
 
             foreach(var exclude in excludedNamespaces)
             {
@@ -103,6 +106,11 @@ private void ExecuteUnitTests()
                 toInclude += $" --include \"{include}\"";
             }
 
+            foreach(var excludefile in excludedFiles)
+            {
+                filesToExclude += $" --exclude-by-file \"{excludefile}\"";
+            }
+
             // See: https://github.com/coverlet-coverage/coverlet/blob/master/Documentation/GlobalTool.md
             var args = $"coverlet {assembly} --target \"dotnet\" --targetargs \"test {assembly}\" --format opencover --output {coverPath}";
             if(!string.IsNullOrEmpty(toExclude))
@@ -112,6 +120,10 @@ private void ExecuteUnitTests()
             if(!string.IsNullOrEmpty(toInclude))
             {
                 args += toInclude;
+            }
+            if(!string.IsNullOrEmpty(filesToExclude))
+            {
+                args += filesToExclude;
             }
 
             StartProcess("dotnet", args);
