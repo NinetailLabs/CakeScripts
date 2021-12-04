@@ -114,7 +114,6 @@ private void ExecuteUnitTests()
                 args += toInclude;
             }
 
-            Information($"Test args: {args}");
             StartProcess("dotnet", args);
 
         }
