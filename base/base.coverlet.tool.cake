@@ -91,11 +91,16 @@ private void ExecuteUnitTests()
             Information($"Testing: {assembly}");
             
             var toExclude = "";
-            var toInclude = string.Join(" --include \"", includedNamespaces + "\"");
+            var toInclude = "";
 
             foreach(var exclude in excludedNamespaces)
             {
                 toExclude += $" --exclude \"{exclude}\"";
+            }
+
+            foreach(var include in includedNamespaces)
+            {
+                toInclude += $" --include \"{include}\"";
             }
 
             // See: https://github.com/coverlet-coverage/coverlet/blob/master/Documentation/GlobalTool.md
@@ -103,6 +108,10 @@ private void ExecuteUnitTests()
             if(!string.IsNullOrEmpty(toExclude))
             {
                 args += toExclude;
+            }
+            if(!string.IsNullOrEmpty(toInclude))
+            {
+                args += toInclude;
             }
 
             Information($"Test args: {args}");
