@@ -223,7 +223,9 @@ if (!(Test-Path $CAKE_EXE)) {
     Throw "Could not find Cake.exe at $CAKE_EXE"
 }
 
-
+# Restore dotnet tools
+dotnet tool restore
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 # Build Cake arguments
 $cakeArguments = @("$Script");
