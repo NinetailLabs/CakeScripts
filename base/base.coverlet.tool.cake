@@ -2,6 +2,8 @@
  * Execute unit tests.
  * Script uses coverlet to calculate test coverage and provide coverage as a single OpenCover xml file.
  * Script requires the coverlet Global tool to be available on the build server in order to run.
+ * To install the tool locally run: `dotnet tool install coverlet.console`
+ * If you haven't installed a tool locally before first run: `dotnet new tool-manifest`
  */
 
 #region Variables
