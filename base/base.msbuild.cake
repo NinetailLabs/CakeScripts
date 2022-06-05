@@ -10,10 +10,12 @@
 
 #region Variables
 
-// The version of MSBuild to use
+// The platform of MSBuild to use
 var msBuildPlatform = MSBuildPlatform.Automatic;
 // The target platform to build for (MSIL is AnyCPU)
 var platformTarget = PlatformTarget.MSIL;
+// The version of MSBuild to use
+var toolVersion = MSBuildToolVersion.Default;
 
 #endregion
 
@@ -33,7 +35,8 @@ Task ("Build")
                                 Verbosity = Verbosity.Quiet,
                                 MSBuildPlatform = msBuildPlatform,
                                 PlatformTarget = platformTarget,
-                                Configuration = buildConfiguration
+                                Configuration = buildConfiguration,
+                                ToolVersion = toolVersion
                             });
 
             var releaseFolder = string.Format(releaseFolderString, solution.Key, buildConfiguration);
