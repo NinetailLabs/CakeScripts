@@ -37,6 +37,8 @@ var releaseFolderString = "./{0}/bin/{1}/";
 var releaseBinaryType = "dll";
 // Name of the project being built
 var projectName = "";
+// The CakeScripts version number
+private var versionNumber = "2.0.0";
 
 #endregion
 
@@ -47,6 +49,7 @@ Task ("OutputVariables")
         var blockText = "Output Variables";
         StartBlock(blockText);
 
+        Information($"CakeScripts Version: {versionNumber}");
         Information($"Branch: {branch}");
         Information($"Build Counter: {buildCounter}");
         Information($"Build Configuration: {buildConfiguration}");

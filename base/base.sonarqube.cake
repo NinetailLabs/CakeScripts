@@ -4,7 +4,7 @@
 
 #region Addins
 
-#addin nuget:?package=Cake.Sonar&version=1.1.25
+#addin nuget:?package=Cake.Sonar&version=1.1.30
 
 #endregion
 
